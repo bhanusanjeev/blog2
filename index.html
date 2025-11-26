@@ -2,231 +2,359 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>My Simple Blog</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
+    :root {
+      --bg-main: #050508;
+      --bg-card: #0d0d17;
+      --accent: #1e90ff;
+      --accent-soft: #102349;
+      --text-main: #f5f5f5;
+      --text-muted: #aaaaaa;
+      --border-color: #1f2933;
+    }
+
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
     }
 
     body {
-      background: #f5f5f5;
-      color: #222;
-      line-height: 1.6;
+      background: radial-gradient(circle at top, #0f172a 0, #020617 45%, #000 100%);
+      color: var(--text-main);
+      min-height: 100vh;
     }
 
-    /* Header */
+    /* HEADER / NAVBAR */
     header {
-      background: #111827;
-      color: #f9fafb;
-      padding: 1.5rem 1rem;
+      border-bottom: 1px solid var(--border-color);
+      background: rgba(5, 5, 8, 0.9);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
 
-    .container {
-      max-width: 1000px;
+    .nav {
+      max-width: 900px;
       margin: 0 auto;
+      padding: 0.9rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
-    .brand {
-      font-size: 1.6rem;
+    .logo {
       font-weight: 700;
-      letter-spacing: 0.05em;
+      font-size: 1.1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
     }
 
-    .tagline {
+    .nav-links {
+      display: flex;
+      gap: 1rem;
       font-size: 0.9rem;
-      opacity: 0.8;
-      margin-top: 0.3rem;
     }
 
-    /* Layout */
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      background: var(--accent-soft);
+      color: var(--text-main);
+    }
+
+    /* MAIN LAYOUT */
     main {
-      padding: 1.5rem 1rem 2.5rem;
-    }
-
-    .layout {
+      max-width: 900px;
+      margin: 1.5rem auto 2.5rem;
+      padding: 0 1rem;
       display: grid;
-      grid-template-columns: 3fr 1fr;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1.2fr);
       gap: 1.5rem;
     }
 
-    /* Blog posts */
-    .post {
-      background: #ffffff;
-      border-radius: 8px;
-      padding: 1.2rem 1.4rem;
+    @media (max-width: 768px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* BLOG LIST */
+    .page-title {
       margin-bottom: 1rem;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
-      transition: transform 0.1s ease, box-shadow 0.1s ease;
     }
 
-    .post:hover {
+    .page-title h1 {
+      font-size: 1.6rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .page-title p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .blog-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .blog-card {
+      background: var(--bg-card);
+      border-radius: 0.9rem;
+      padding: 1rem 1.1rem;
+      border: 1px solid var(--border-color);
+      transition: transform 0.15s ease, box-shadow 0.15s ease,
+        border-color 0.15s ease;
+      cursor: pointer;
+    }
+
+    .blog-card:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.6);
+      border-color: var(--accent-soft);
     }
 
-    .post-title {
-      font-size: 1.3rem;
-      margin-bottom: 0.4rem;
+    .blog-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
     }
 
-    .post-meta {
-      font-size: 0.8rem;
-      color: #6b7280;
-      margin-bottom: 0.8rem;
+    .tag {
+      padding: 0.1rem 0.5rem;
+      border-radius: 999px;
+      background: rgba(30, 144, 255, 0.12);
+      color: var(--accent);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
     }
 
-    .post-body {
-      font-size: 0.95rem;
-      margin-bottom: 0.8rem;
+    .blog-card h2 {
+      font-size: 1.1rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .blog-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
     }
 
     .read-more {
-      font-size: 0.85rem;
-      text-decoration: none;
-      color: #2563eb;
-      font-weight: 500;
+      margin-top: 0.7rem;
+      font-size: 0.8rem;
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
     }
 
-    .read-more:hover {
-      text-decoration: underline;
+    .read-more span {
+      transition: transform 0.15s ease;
     }
 
-    /* Sidebar */
+    .blog-card:hover .read-more span {
+      transform: translateX(3px);
+    }
+
+    /* SIDEBAR */
     aside {
-      position: sticky;
-      top: 1.5rem;
-      align-self: flex-start;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
     }
 
     .card {
-      background: #ffffff;
-      border-radius: 8px;
-      padding: 1rem 1.2rem;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
-      margin-bottom: 1rem;
+      background: var(--bg-card);
+      border-radius: 0.9rem;
+      padding: 1rem;
+      border: 1px solid var(--border-color);
     }
 
     .card h3 {
       font-size: 1rem;
-      margin-bottom: 0.7rem;
+      margin-bottom: 0.6rem;
     }
 
-    .about-text {
+    .search-box input {
+      width: 100%;
+      padding: 0.5rem 0.6rem;
+      border-radius: 0.6rem;
+      border: 1px solid var(--border-color);
+      background: #020617;
+      color: var(--text-main);
       font-size: 0.9rem;
+      outline: none;
+    }
+
+    .search-box input::placeholder {
       color: #4b5563;
     }
 
-    .tag-list {
+    .category-list {
       list-style: none;
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
       gap: 0.4rem;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
     }
 
-    .tag-list li {
-      background: #e5e7eb;
-      padding: 0.3rem 0.6rem;
-      border-radius: 999px;
+    .category-list li {
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    /* Footer */
+    .category-list li:hover {
+      color: var(--accent);
+    }
+
     footer {
-      border-top: 1px solid #e5e7eb;
+      max-width: 900px;
+      margin: 0 auto 1.5rem;
+      padding: 0 1rem;
       text-align: center;
-      padding: 1rem;
-      font-size: 0.8rem;
-      color: #6b7280;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .layout {
-        grid-template-columns: 1fr;
-      }
-
-      aside {
-        position: static;
-      }
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border-color);
+      padding-top: 1rem;
     }
   </style>
 </head>
 <body>
-  <!-- Header -->
+  <!-- Header / Navbar -->
   <header>
-    <div class="container">
-      <div class="brand">My Simple Blog</div>
-      <p class="tagline">Thoughts, notes and experiments — all in one place.</p>
-    </div>
+    <nav class="nav">
+      <div class="logo">BlueBlog</div>
+      <div class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">Articles</a>
+        <a href="#">About</a>
+      </div>
+    </nav>
   </header>
 
   <!-- Main Content -->
   <main>
-    <div class="container layout">
-      <!-- Posts Column -->
-      <section>
-        <article class="post">
-          <h2 class="post-title">Getting Started with My Blog</h2>
-          <p class="post-meta">Posted on November 26, 2025 · 5 min read</p>
-          <p class="post-body">
-            This is a sample post to show how your blog will look. You can write about your
-            journey, your projects, or anything you like. Keep the tone natural and simple.
+    <!-- Left: Blog posts -->
+    <section>
+      <div class="page-title">
+        <h1>Latest Articles</h1>
+        <p>Thoughts, tutorials and stories in a clean dark UI.</p>
+      </div>
+
+      <div class="blog-list">
+        <article class="blog-card">
+          <div class="blog-meta">
+            <span class="tag">React</span>
+            <span>·</span>
+            <span>May 02, 2025</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <h2>Building a Clean Dark-Themed UI with React</h2>
+          <p>
+            Learn how to design a sleek, modern dark interface using reusable
+            components, sensible typography and a minimal color palette.
           </p>
-          <a href="#" class="read-more">Read more →</a>
+          <div class="read-more">
+            Read article <span>➜</span>
+          </div>
         </article>
 
-        <article class="post">
-          <h2 class="post-title">Why I Started Writing</h2>
-          <p class="post-meta">Posted on November 20, 2025 · 3 min read</p>
-          <p class="post-body">
-            Writing helps you organize your thoughts, track your progress, and share ideas
-            with others. Even short notes can turn into something valuable over time.
+        <article class="blog-card">
+          <div class="blog-meta">
+            <span class="tag">Django</span>
+            <span>·</span>
+            <span>April 18, 2025</span>
+            <span>·</span>
+            <span>8 min read</span>
+          </div>
+          <h2>REST APIs with Django REST Framework – A Simple Start</h2>
+          <p>
+            A beginner friendly walkthrough for building your first API using
+            Django, DRF and token-based authentication.
           </p>
-          <a href="#" class="read-more">Read more →</a>
+          <div class="read-more">
+            Read article <span>➜</span>
+          </div>
         </article>
 
-        <article class="post">
-          <h2 class="post-title">My Tech Stack & Learning Plan</h2>
-          <p class="post-meta">Posted on November 10, 2025 · 4 min read</p>
-          <p class="post-body">
-            In this post, I talk about the tools and technologies I'm learning right now,
-            and how I plan my day to balance college, projects, and personal life.
+        <article class="blog-card">
+          <div class="blog-meta">
+            <span class="tag">Career</span>
+            <span>·</span>
+            <span>March 30, 2025</span>
+            <span>·</span>
+            <span>4 min read</span>
+          </div>
+          <h2>From Tutorial Hell to Real Projects</h2>
+          <p>
+            Moving from passive watching to actually shipping projects is what
+            separates learners from developers. Here’s a practical roadmap.
           </p>
-          <a href="#" class="read-more">Read more →</a>
+          <div class="read-more">
+            Read article <span>➜</span>
+          </div>
         </article>
-      </section>
+      </div>
+    </section>
 
-      <!-- Sidebar -->
-      <aside>
-        <div class="card">
-          <h3>About Me</h3>
-          <p class="about-text">
-            Hey, I'm the author of this blog. I write about coding, personal growth,
-            and anything else that feels important in the moment.
-          </p>
+    <!-- Right: Sidebar -->
+    <aside>
+      <div class="card">
+        <h3>Search</h3>
+        <div class="search-box">
+          <input type="text" placeholder="Search articles..." />
         </div>
+      </div>
 
-        <div class="card">
-          <h3>Tags</h3>
-          <ul class="tag-list">
-            <li>Web Dev</li>
-            <li>Life</li>
-            <li>Projects</li>
-            <li>Notes</li>
-            <li>Learning</li>
-          </ul>
-        </div>
-      </aside>
-    </div>
+      <div class="card">
+        <h3>Categories</h3>
+        <ul class="category-list">
+          <li>
+            <span>React & Frontend</span>
+            <span>12</span>
+          </li>
+          <li>
+            <span>Django & Backend</span>
+            <span>9</span>
+          </li>
+          <li>
+            <span>Career & ATS</span>
+            <span>5</span>
+          </li>
+          <li>
+            <span>System Design</span>
+            <span>3</span>
+          </li>
+        </ul>
+      </div>
+    </aside>
   </main>
 
-  <!-- Footer -->
   <footer>
-    © 2025 My Simple Blog · Built with pure HTML & CSS
+    © 2025 BlueBlog • Built with love & a black + blue theme.
   </footer>
 </body>
 </html>
